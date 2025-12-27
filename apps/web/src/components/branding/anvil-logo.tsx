@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface AnvilLogoProps {
   className?: string;
@@ -13,40 +14,37 @@ export function AnvilLogo({
   wordmarkClassName,
   showWordmark = true,
 }: AnvilLogoProps) {
+  if (showWordmark) {
+    return (
+      <span className={cn("inline-flex items-center", className)}>
+        <Image
+          alt="anvil"
+          className={cn("h-8 w-auto", iconClassName, wordmarkClassName)}
+          height={42}
+          priority
+          src="/images/logo.svg"
+          width={134}
+        />
+      </span>
+    );
+  }
+
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span className={cn("inline-flex items-center", className)}>
       <span
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#1f232b] text-white",
+          "inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-lg border border-gray-200 bg-white",
           iconClassName,
         )}
       >
-        <svg
-          aria-hidden="true"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 64 64"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="anvilLogoGradient" x1="10" x2="54" y1="10" y2="56">
-              <stop offset="0%" stopColor="#ff9f5a" />
-              <stop offset="100%" stopColor="#ff5d2d" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M10 28c5-10 14-16 25-16h15v9H36c-6 0-11 3-14 7H10z"
-            fill="url(#anvilLogoGradient)"
-          />
-          <rect fill="url(#anvilLogoGradient)" height="8" rx="4" width="46" x="9" y="30" />
-          <rect fill="url(#anvilLogoGradient)" height="16" rx="4" width="12" x="26" y="38" />
-        </svg>
+        <Image
+          alt="anvil"
+          className="h-full w-auto max-w-none object-left"
+          height={42}
+          src="/images/logo.svg"
+          width={134}
+        />
       </span>
-      {showWordmark ? (
-        <span className={cn("text-xl font-semibold tracking-tight text-[#171a1f]", wordmarkClassName)}>
-          anvil
-        </span>
-      ) : null}
     </span>
   );
 }
