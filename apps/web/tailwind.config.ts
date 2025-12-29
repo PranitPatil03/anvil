@@ -13,8 +13,9 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Public Sans", "ui-sans-serif", "system-ui", "sans-serif"],
-        heading: ["Sora", "Public Sans", "ui-sans-serif", "sans-serif"],
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        heading: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",

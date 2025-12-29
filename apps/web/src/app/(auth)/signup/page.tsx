@@ -11,6 +11,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+function buildAbsoluteCallbackUrl(path: string) {
+  return new URL(path, window.location.origin).toString();
+}
+
 export default function SignupPage() {
   const router = useRouter();
 
@@ -45,9 +49,13 @@ export default function SignupPage() {
   async function handleGoogleSignUp() {
     setGoogleLoading(true);
 
+    const callbackURL = buildAbsoluteCallbackUrl("/app/organization-setup");
+    const errorCallbackURL = buildAbsoluteCallbackUrl("/signup");
+
     const { error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/app/organization-setup",
+      callbackURL,
+      errorCallbackURL,
     });
 
     if (error) {
@@ -57,14 +65,14 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="rounded-2xl bg-white/80 p-8 backdrop-blur-sm">
+    <div className="rounded-xl">
       <Link href="/" className="mb-6 inline-flex">
-        <AnvilLogo wordmarkClassName="text-slate-900" />
+        <AnvilLogo wordmarkClassName="text-gray-900" />
       </Link>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-medium text-slate-900">Create an account</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-medium text-gray-900">Create an account</h1>
+        <p className="mt-1 text-sm text-gray-500">
           Sign up to start your workspace.
         </p>
       </div>
@@ -72,7 +80,7 @@ export default function SignupPage() {
       <Button
         type="button"
         variant="outline"
-        className="h-12 w-full rounded-xl border-slate-300 bg-white/80 text-slate-800 hover:bg-white"
+        className="h-12 w-full rounded-xl border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
         onClick={handleGoogleSignUp}
         disabled={loading || googleLoading}
       >
@@ -101,21 +109,21 @@ export default function SignupPage() {
         Continue with Google
       </Button>
 
-      <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wide text-slate-400">
-        <span className="h-px flex-1 bg-slate-200" />
+      <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wide text-gray-400">
+        <span className="h-px flex-1 bg-gray-200" />
         <span>or continue with email</span>
-        <span className="h-px flex-1 bg-slate-200" />
+        <span className="h-px flex-1 bg-gray-200" />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3.5">
         <div className="space-y-1.5">
-          <Label htmlFor="name" className="text-slate-700">
+          <Label htmlFor="name" className="text-gray-700">
             Full name
           </Label>
           <Input
             id="name"
             type="text"
-            className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+            className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
             placeholder="Jane Smith"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -125,13 +133,13 @@ export default function SignupPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-slate-700">
+          <Label htmlFor="email" className="text-gray-700">
             Work email
           </Label>
           <Input
             id="email"
             type="email"
-            className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+            className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
             placeholder="you@company.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -141,13 +149,13 @@ export default function SignupPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="password" className="text-slate-700">
+          <Label htmlFor="password" className="text-gray-700">
             Password
           </Label>
           <Input
             id="password"
             type="password"
-            className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+            className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
             placeholder="At least 8 characters"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -159,7 +167,7 @@ export default function SignupPage() {
 
         <Button
           type="submit"
-          className="h-12 w-full rounded-xl border border-blue-600 bg-gradient-to-b from-blue-400 to-blue-600 text-white shadow-[0_4px_14px_rgba(37,99,235,0.4)] transition-all hover:scale-[1.01] hover:shadow-[0_6px_20px_rgba(37,99,235,0.55)] disabled:hover:scale-100"
+          className="h-12 w-full rounded-sm bg-gray-900 text-white transition-colors hover:bg-gray-800"
           disabled={loading || googleLoading}
         >
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -167,11 +175,11 @@ export default function SignupPage() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-400">
+      <p className="mt-6 text-center text-sm text-gray-400">
         Already have an account?{" "}
         <Link
           href="/login"
-          className="font-semibold text-slate-900 hover:underline"
+          className="font-semibold text-gray-900 hover:underline"
         >
           Sign in
         </Link>
