@@ -34,25 +34,25 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="rounded-2xl bg-white/80 p-8 backdrop-blur-sm">
+    <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
       <Link href="/" className="mb-6 inline-flex">
-        <AnvilLogo wordmarkClassName="text-slate-900" />
+        <AnvilLogo wordmarkClassName="text-gray-900" />
       </Link>
 
       {sent ? (
         <div className="flex flex-col items-center gap-4 py-4 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50">
             <CheckCircle className="h-6 w-6 text-blue-600" />
           </div>
           <div>
-            <h2 className="font-semibold text-slate-900">Check your email</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="font-semibold text-gray-900">Check your email</h2>
+            <p className="mt-1 text-sm text-gray-500">
               We sent a reset link to <strong>{email}</strong>
             </p>
           </div>
           <Link
             href="/login"
-            className="mt-2 flex items-center gap-1.5 text-sm text-slate-700 hover:text-slate-900"
+            className="mt-2 flex items-center gap-1.5 text-sm text-gray-700 hover:text-gray-900"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to sign in
@@ -61,23 +61,23 @@ export default function ForgotPasswordPage() {
       ) : (
         <>
           <div className="mb-6">
-            <h1 className="text-2xl font-medium text-slate-900">
+            <h1 className="text-2xl font-medium text-gray-900">
               Reset password
             </h1>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-gray-500">
               Enter your email and we&apos;ll send a reset link.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-slate-700">
+              <Label htmlFor="email" className="text-gray-700">
                 Email
               </Label>
               <Input
                 id="email"
                 type="email"
-                className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+                className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
                 placeholder="you@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
 
             <Button
               type="submit"
-              className="h-12 w-full rounded-xl border border-blue-600 bg-gradient-to-b from-blue-400 to-blue-600 text-white shadow-[0_4px_14px_rgba(37,99,235,0.4)] transition-all hover:scale-[1.01] hover:shadow-[0_6px_20px_rgba(37,99,235,0.55)] disabled:hover:scale-100"
+              className="h-12 w-full rounded-sm bg-gray-900 text-white transition-colors hover:bg-gray-800"
               disabled={loading}
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
           <div className="mt-6 text-center">
             <Link
               href="/login"
-              className="flex items-center justify-center gap-1.5 text-sm text-slate-500 hover:text-slate-900"
+              className="flex items-center justify-center gap-1.5 text-sm text-gray-500 hover:text-gray-900"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to sign in

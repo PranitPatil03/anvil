@@ -26,6 +26,10 @@ function resolveNextPath(nextPath: string | null) {
   return nextPath;
 }
 
+function buildAbsoluteCallbackUrl(path: string) {
+  return new URL(path, window.location.origin).toString();
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const [nextPath, setNextPath] = useState(DEFAULT_NEXT_PATH);
@@ -79,9 +83,15 @@ export default function LoginPage() {
   async function handleGoogleSignIn() {
     setGoogleLoading(true);
 
+    const callbackURL = buildAbsoluteCallbackUrl(nextPath);
+    const errorCallbackURL = buildAbsoluteCallbackUrl(
+      `/login?next=${encodeURIComponent(nextPath)}`,
+    );
+
     const { error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: nextPath,
+      callbackURL,
+      errorCallbackURL,
     });
 
     if (error) {
@@ -91,14 +101,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="rounded-2xl bg-white/80 p-8 backdrop-blur-sm">
+    <div className="rounded-xl">
       <Link href="/" className="mb-6 inline-flex">
-        <AnvilLogo wordmarkClassName="text-slate-900" />
+        <AnvilLogo wordmarkClassName="text-gray-900" />
       </Link>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-medium text-slate-900">Welcome back</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-2xl font-medium text-gray-900">Welcome back</h1>
+        <p className="mt-1 text-sm text-gray-500">
           Sign in to your account to continue.
         </p>
       </div>
@@ -106,7 +116,7 @@ export default function LoginPage() {
       <Button
         type="button"
         variant="outline"
-        className="h-12 w-full rounded-xl border-slate-300 bg-white/80 text-slate-800 hover:bg-white"
+        className="h-12 w-full rounded-xl border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
         onClick={handleGoogleSignIn}
         disabled={loading || googleLoading}
       >
@@ -135,21 +145,21 @@ export default function LoginPage() {
         Continue with Google
       </Button>
 
-      <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wide text-slate-400">
-        <span className="h-px flex-1 bg-slate-200" />
+      <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-wide text-gray-400">
+        <span className="h-px flex-1 bg-gray-200" />
         <span>or continue with email</span>
-        <span className="h-px flex-1 bg-slate-200" />
+        <span className="h-px flex-1 bg-gray-200" />
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3.5">
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-slate-700">
+          <Label htmlFor="email" className="text-gray-700">
             Email
           </Label>
           <Input
             id="email"
             type="email"
-            className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+            className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -160,12 +170,12 @@ export default function LoginPage() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password" className="text-slate-700">
+            <Label htmlFor="password" className="text-gray-700">
               Password
             </Label>
             <Link
               href="/forgot-password"
-              className="text-xs text-slate-500 transition-colors hover:text-slate-900"
+              className="text-xs text-gray-500 transition-colors hover:text-gray-900"
             >
               Forgot password?
             </Link>
@@ -173,7 +183,7 @@ export default function LoginPage() {
           <Input
             id="password"
             type="password"
-            className="h-12 rounded-xl border-slate-200 bg-white px-4 text-sm placeholder:text-slate-400 focus-visible:ring-blue-400/40"
+            className="h-12 rounded-xl border-gray-200 bg-white px-4 text-sm placeholder:text-gray-400 focus-visible:ring-blue-400/30"
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -184,7 +194,7 @@ export default function LoginPage() {
 
         <Button
           type="submit"
-          className="h-12 w-full rounded-xl border border-blue-600 bg-gradient-to-b from-blue-400 to-blue-600 text-white shadow-[0_4px_14px_rgba(37,99,235,0.4)] transition-all hover:scale-[1.01] hover:shadow-[0_6px_20px_rgba(37,99,235,0.55)] disabled:hover:scale-100"
+          className="h-12 w-full rounded-sm bg-gray-900 text-white transition-colors hover:bg-gray-800"
           disabled={loading || googleLoading}
         >
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -192,11 +202,11 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-400">
+      <p className="mt-6 text-center text-sm text-gray-400">
         Don&apos;t have an account?{" "}
         <Link
           href="/signup"
-          className="font-semibold text-slate-900 hover:underline"
+          className="font-semibold text-gray-900 hover:underline"
         >
           Create one
         </Link>
